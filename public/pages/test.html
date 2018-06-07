@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button id="button">记录</button>
+    <button id="get">获取</button>
+</body>
+<script src="/public/javascripts/getDevice.js"></script>
+<script>
+    var button = document.getElementById("button");
+    button.addEventListener('click',function(){
+      var data = {
+        record_title:document.querySelector('title').innerHTML,
+        record_device:compatibility()
+      }
+      fetch('/records/add',{
+        method:'post',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify(data)
+      })
+        .then(res=>{
+          return res.json()
+        })
+        .then(json=>{
+          console.log(json)
+        })
+    })
+
+    var get = document.getElementById("get")
+    get.addEventListener('click',function(){
+      fetch('/records/get?record_id=1')
+        .then(res=>res.json())
+        .then(json=>{
+          console.log(json)
+        })
+    })
+</script>
+</html>
