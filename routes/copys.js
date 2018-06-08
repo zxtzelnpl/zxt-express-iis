@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const service = require('../services/records');
+const service = require('../services/copys');
 
 function getClientIp(req) {
   return req.headers['x-forwarded-for'] ||
@@ -9,15 +9,11 @@ function getClientIp(req) {
     req.connection.socket.remoteAddress;
 }
 
-/* GET records listing. */
-router.get('/', (req, res, next) => {
-  res.send('respond with a resource');
-});
-
+/*请求一条记录*/
 router.get('/get', function(req, res, next) {
-  const record_id = req.query.record_id;
+  const copy_id = req.query.copy_id;
 
-  service.getRecordById(record_id)
+  service.getCopyRecordById(copy_id)
     .then(results=>{
       res.send(results)
     })
@@ -26,11 +22,12 @@ router.get('/get', function(req, res, next) {
     })
 });
 
+/*增加一条记录*/
 router.post('/add',(req,res,next) => {
-  req.body.record_ip = getClientIp(req);
-  req.body.record_date = new Date();
+  req.body.copy_ip = getClientIp(req);
+  req.body.copy_date = new Date();
 
-  service.addOneRecord(req.body)
+  service.addOneCopyRecord(req.body)
     .then(results=>{
       res.send(results)
     })

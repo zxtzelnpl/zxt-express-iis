@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        div{
+            margin:10px 0;
+        }
+    </style>
 </head>
 <body>
+<div>
+    <span>Record :</span>
     <button id="button">记录</button>
-    <button id="get">获取</button>
+    <button id="get"><input id="num" type="number" />获取</button>
+</div>
+
+<div>
+    <span>Record :</span>
+    <button id="button_click">记录</button>
+    <button id="get_click"><input id="num_click" type="number" />获取</button>
+</div>
+
+<div>
+    <span>Record :</span>
+    <span id="span_copy">记录</span>
+    <button id="get_copy"><input id="num_copy" type="number" />获取</button>
+</div>
+
 </body>
 <script src="/public/javascripts/getDevice.js"></script>
 <script>
+  (function(){
     var button = document.getElementById("button");
     button.addEventListener('click',function(){
       var data = {
@@ -32,12 +54,85 @@
     })
 
     var get = document.getElementById("get")
+    var num = document.getElementById("num").value
     get.addEventListener('click',function(){
-      fetch('/records/get?record_id=1')
+      fetch(`/records/get?record_id=${num}`)
         .then(res=>res.json())
         .then(json=>{
           console.log(json)
         })
     })
+  })();
+
+  (function(){
+    var button = document.getElementById("button_click");
+    button.addEventListener('click',function(){
+      var data = {
+        click_title:document.querySelector('title').innerHTML,
+        click_device:compatibility(),
+        click_btn:button.getAttribute("id")
+      }
+      fetch('/clicks/add',{
+        method:'post',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify(data)
+      })
+        .then(res=>{
+          return res.json()
+        })
+        .then(json=>{
+          console.log(json)
+        })
+    })
+
+    var get = document.getElementById("get_click")
+    var num = document.getElementById("num_click").value
+    get.addEventListener('click',function(){
+      fetch(`/clicks/get?click_id=${num}`)
+        .then(res=>res.json())
+        .then(json=>{
+          console.log(json)
+        })
+    })
+  })();
+
+  (function(){
+    var span_copy = document.getElementById("span_copy");
+    span_copy.addEventListener('copy',function(e){
+
+      console.log(e)
+
+      var data = {
+        copy_title:document.querySelector('title').innerHTML,
+        copy_device:compatibility(),
+        copy_text:span_copy.innerText
+      }
+      fetch('/copys/add',{
+        method:'post',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify(data)
+      })
+        .then(res=>{
+          return res.json()
+        })
+        .then(json=>{
+          console.log(json)
+        })
+    })
+
+    var get = document.getElementById("get_copy")
+    var num = document.getElementById("num_copy").value
+    get.addEventListener('click',function(){
+      fetch(`/copys/get?copy_id=${num}`)
+        .then(res=>res.json())
+        .then(json=>{
+          console.log(json)
+        })
+    })
+  })();
 </script>
 </html>
