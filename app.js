@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
+var fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -10,6 +11,12 @@ const copysRouter = require('./routes/copys');
 const recordsRouter = require('./routes/records');
 
 const app = express();
+
+// create a write stream (in append mode)
+// var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+
+// setup the logger
+// app.use(logger('combined', {stream: accessLogStream}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

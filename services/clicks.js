@@ -7,11 +7,17 @@ exports.getClickRecordById = click_id => {
   return mysql.getConnection()
     .then(connection=>{
       return dao.queryClickRecordById(connection,click_id)
-        .then(results=>{
-          // And done with the connection.
-          connection.release();
-          return results;
-        })
+          .then(results => {
+            // And done with the connection.
+            connection.release();
+            return results;
+          }).catch(err => {
+            return err
+          })
+          .then((res) => {
+            connection.release();
+            return res;
+          })
     })
 }
 
@@ -20,10 +26,16 @@ exports.addOneClickRecord = clickRecord => {
   return mysql.getConnection()
     .then(connection=>{
       return dao.insertOneClickRecord(connection,clickRecord)
-        .then(results=>{
-          connection.release();
-          return results
-        })
+          .then(results => {
+            return results
+          })
+          .catch(err => {
+            return err
+          })
+          .then((res) => {
+            connection.release();
+            return res;
+          })
     })
 }
 

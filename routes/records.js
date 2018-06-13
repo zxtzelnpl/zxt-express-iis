@@ -7,7 +7,7 @@ const Record = require('../modules/records');
 
 /* GET records listing. */
 router.get('/', (req, res, next) => {
-  res.send('respond with a resource');
+  res.send('respond with a resource'+tools.zxt++);
 });
 
 router.get('/get', function(req, res, next) {
@@ -23,47 +23,39 @@ router.get('/get', function(req, res, next) {
 });
 
 router.post('/add',(req,res,next) => {
-  req.body.record_ip = getClientIp(req);
-  req.body.record_date = new Date();
+  let record = new Record(req.body);
+  record.record_ip =getClientIp(req);
 
-  service.addOneRecord(req.body)
+  service.addOneRecord(record)
     .then(results=>{
-      res.send(results)
+      if(typeof results === 'object'&&!results.errno){
+        res.send(results)
+      }else{
+        next(results)
+      }
     })
     .catch(err=>{
       next(err)
     })
 })
 
-router.get('/add',(req,res,next) => {
-
-  try{
-    req.query.record_ip = getClientIp(req);
-    req.query.record_date = new Date();
-
-    let record = new Record(req.query);
-
-    record.record_ip = getClientIp(req);
-
-    service.addOneRecord(record)
-      .then(results=>{
-        res.send(results)
-      })
-      .catch(err=>{
-        next(err)
-      })
-  }
-  catch(e){
-    res.send({
-      err:'err'
-    })
-  }
-
-
-
-
-
-})
+// router.get('/add',(req,res,next) => {
+//
+//   req.query.record_ip = getClientIp(req);
+//   req.query.record_date = new Date();
+//
+//   let record = new Record(req.query);
+//
+//   record.record_ip = getClientIp(req);
+//
+//   service.addOneRecord(record)
+//       .then(results=>{
+//         res.send(results)
+//       })
+//       .catch(err=>{
+//         next(err)
+//       })
+// })
 
 
 

@@ -61,3 +61,5 @@ typings/
 .env
 
 config/db.js
+
+access.log

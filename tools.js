@@ -11,5 +11,12 @@ exports.getClientIp = req=>{
     ip = 'error'
   }
 
-  return ip;
+  return ip.slice(0,10);
 }
+
+
+exports.backJsonSuccess={
+
+}
+
+exports.zxt=0;

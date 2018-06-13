@@ -3,6 +3,7 @@ const router = express.Router();
 const service = require('../services/copys');
 const tools = require('../tools');
 const getClientIp = tools.getClientIp;
+const CopyRecord = require('../modules/copys');
 
 /*请求一条记录*/
 router.get('/get', function(req, res, next) {
@@ -19,12 +20,16 @@ router.get('/get', function(req, res, next) {
 
 /*增加一条记录*/
 router.post('/add',(req,res,next) => {
-  req.body.copy_ip = getClientIp(req);
-  req.body.copy_date = new Date();
+  let copyRecord = new CopyRecord(req.body)
+  copyRecord.click_ip = getClientIp(req);
 
-  service.addOneCopyRecord(req.body)
+  service.addOneCopyRecord(copyRecord)
     .then(results=>{
-      res.send(results)
+      if(typeof results === 'object'&&!results.errno){
+        res.send(results)
+      }else{
+        next(results)
+      }
     })
     .catch(err=>{
       next(err)
