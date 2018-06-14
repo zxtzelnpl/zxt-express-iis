@@ -22,6 +22,10 @@ const p3 = () => {
   })
 }
 
+var str='12345'
+console.log(str.slice(0,40))
+
+/*
 p1()
     .then(res => {
       console.log(res + ':res')
@@ -67,4 +71,4 @@ p1()
     })
     .then(res => {
       console.log(res + ':after')
-    })
+    })*/

@@ -1,4 +1,4 @@
-function ClickRecord(){
+function ClickRecord(obj){
   this.click_date = new Date();
   this.click_title = obj.click_title;
   this.click_device = obj.click_device;

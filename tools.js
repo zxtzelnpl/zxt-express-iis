@@ -11,7 +11,7 @@ exports.getClientIp = req=>{
     ip = 'error'
   }
 
-  return ip.slice(0,10);
+  return ip.slice(0,40);
 }
 
 
