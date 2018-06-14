@@ -56,7 +56,7 @@
           .then(json => {
             if(typeof json === 'string'){
               localStorage.setItem('error',json);
-              location.href='/err_page'
+              location.href='/public/pages/err_page.html'
             }
             console.log(json)
           })
