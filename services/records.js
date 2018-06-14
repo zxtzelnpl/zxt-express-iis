@@ -31,7 +31,7 @@ exports.addRecordByIP = record => {
                     .then(results => {
                       return results;
                     })
-                    .catch(err=>{
+                    .catch(err => {
                       return err;
                     })
                     .then((res) => {
@@ -43,7 +43,7 @@ exports.addRecordByIP = record => {
                 return results
               }
             })
-            .catch(err=>{
+            .catch(err => {
               return err;
             })
             .then((res) => {
@@ -72,3 +72,38 @@ exports.addOneRecord = record => {
       })
 }
 
+//查询所有记录条数
+exports.getListsNum = conditions => {
+  return mysql.getConnection()
+      .then(connection => {
+        return dao.getCount(connection, conditions)
+            .then(results => {
+              return results
+            })
+            .catch(err => {
+              return err
+            })
+            .then((res) => {
+              connection.release();
+              return res;
+            })
+      })
+}
+
+//查询所有记录条数
+exports.getOnePageList = (conditions, from, to) => {
+  return mysql.getConnection()
+      .then(connection => {
+        return dao.getQueries(connection, conditions, from, to)
+            .then(results => {
+              return results
+            })
+            .catch(err => {
+              return err
+            })
+            .then((res) => {
+              connection.release();
+              return res;
+            })
+      })
+}

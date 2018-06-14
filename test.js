@@ -22,9 +22,18 @@ const p3 = () => {
   })
 }
 
-var str='12345'
+var str='✓'
 console.log(str.slice(0,40))
 
+var str2='✓';
+var str3='√';
+var str4='√';
+
+console.log(str===str2)
+console.log(str3===str2)
+var srt5='⛴';
+var srt6='✓';
+console.log(str2===srt6)
 /*
 p1()
     .then(res => {

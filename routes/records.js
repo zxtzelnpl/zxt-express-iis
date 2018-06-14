@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
   res.send('respond with a resource'+tools.zxt++);
 });
 
-router.get('/get', function(req, res, next) {
+router.get('/get', (req, res, next) => {
   const record_id = req.query.record_id;
 
   service.getRecordById(record_id)
@@ -37,6 +37,14 @@ router.post('/add',(req,res,next) => {
     .catch(err=>{
       next(err)
     })
+})
+
+router.post('/total',(req,res,next) => {
+
+})
+
+router.post('/page',(req,res,next) => {
+
 })
 
 // router.get('/add',(req,res,next) => {
