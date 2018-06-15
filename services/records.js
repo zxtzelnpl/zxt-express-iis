@@ -90,7 +90,7 @@ exports.getListsNum = conditions => {
       })
 }
 
-//查询所有记录条数
+//查询一页的记录条数
 exports.getOnePageList = (conditions, from, to) => {
   return mysql.getConnection()
       .then(connection => {

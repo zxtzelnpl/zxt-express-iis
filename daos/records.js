@@ -72,7 +72,7 @@ exports.getCount = (connection, conditions) => {
   })
 }
 
-//获取记录数量
+//获取一页记录数量
 exports.getQueries = (connection, conditions, from, to) => {
   let sql = 'SELECT * FROM records';
 
@@ -85,7 +85,7 @@ exports.getQueries = (connection, conditions, from, to) => {
     }
   })
 
-  sql+=` limit from,to`;
+  sql+=` limit ${from},${to}`;
 
   return new Promise((resolve, reject) => {
     connection.query(sql, function (err, results) {

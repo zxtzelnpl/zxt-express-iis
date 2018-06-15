@@ -91,11 +91,13 @@
 
     $('.bixbox').each((index, box) => {
 
-      var route = this.className.split(' ').pop();
+      var route = box.className.split(' ').pop();
 
       var record = $(box).find('.record');
       var all = $(box).find('.all');
+      var page = $(box).find('.page');
 
+      /*record记录*/
       record.on('click', () => {
         var data;
 
@@ -130,15 +132,16 @@
         fetch(url, {
           method: 'post',
           headers: {
-            contentType: 'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(json => {
-              console.log(json)
-            })
+          .then(res => res.json())
+          .then(json => {
+            console.log(json)
+          })
       });
+      /*all记录*/
       all.on('click', () => {
         let url = `/${route}/total`
         let data;
@@ -172,14 +175,37 @@
         fetch(url, {
           method: 'post',
           headers: {
-            contentType: 'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(json => {
-              consle.log(json)
-            })
+          .then(res => res.json())
+          .then(json => {
+            console.log(json)
+          })
+      });
+      /*page记录*/
+      page.on('click', () => {
+        let url = `/${route}/page`;
+
+        let fromIndex = page.find('.from').val();
+        let toIndex = page.find('.to').val();
+        let data = {
+          from: fromIndex,
+          to: toIndex
+        };
+
+        fetch(url, {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(res => res.json())
+          .then(json => {
+            console.log(json)
+          })
       })
 
     })
