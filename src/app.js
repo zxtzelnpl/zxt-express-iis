@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
-var fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
