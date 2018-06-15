@@ -54,15 +54,15 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 
 // 自定义token
-logger.token('from', function(req, res){
+logger.token('from', function (req, res) {
   return JSON.stringify(req.query) || '-';
 });
 
-logger.token('time', function(req, res){
+logger.token('time', function (req, res) {
   return new Date().Format("yyyy-MM-dd hh:mm:ss");
 });
 
-logger.token('nextROw', function(req, res){
+logger.token('nextROw', function (req, res) {
   return "\r\n";
 });
 
@@ -70,12 +70,16 @@ logger.token('nextROw', function(req, res){
 logger.format('joke', '[joke] :time :remote-addr :remote-user :method :url :from :status :referrer :response-time ms :user-agent :nextROw');
 
 //跳过不需要记录的请求
-function skip (req) {
+function skip(req) {
   return (req.url).indexOf('stylesheets') != -1
 }
+
 // 使用自定义的format
-app.use(logger('joke'));
-app.use(logger('joke',{skip: skip, stream: accessLogfile })); //打印到日志文件中
+// 测试环境的话，打印出来
+if (process.env.NODE_ENV === 'development') {
+  app.use(logger('joke'));
+}
+app.use(logger('joke', {skip: skip, stream: accessLogfile})); //打印到日志文件中
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -83,11 +87,11 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use('/public',express.static(path.join(__dirname, 'public')));
-app.use('/dist',express.static(path.join(__dirname, 'dist')));
-app.use('/build',express.static(path.join(__dirname, 'build')));
+app.use('/public', express.static(path.join(__dirname, '../public')));
+app.use('/dist', express.static(path.join(__dirname, '../dist')));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use('/', indexRouter);
 app.use('/records', recordsRouter);
@@ -95,17 +99,17 @@ app.use('/copys', copysRouter);
 app.use('/clicks', clicksRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
 
   let now = new Date();
   let time = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + ' '
     + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-  let meta = '[' + time + '] '+req.method+' ' + req.url + '\r\n';
+  let meta = '[' + time + '] ' + req.method + ' ' + req.url + '\r\n';
   errorLogfile.write(meta + err.stack + '\r\n\r\n\r\n');
 
   // set locals, only providing error in development

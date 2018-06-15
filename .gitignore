@@ -60,6 +60,6 @@ typings/
 # dotenv environment variables file
 .env
 
-config/db.js
+src/config/db.js
 
 access.log

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('./bin/www');
+require('./src/bin/www');
