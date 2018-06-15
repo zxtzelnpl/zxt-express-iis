@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const logger = require('morgan');
 const FileStreamRotator = require('file-stream-rotator')
-const logDirectory = path.join(__dirname, 'logs')
+const logDirectory = path.join(__dirname, '../logs')
 
 const indexRouter = require('./routes/index');
 const clicksRouter = require('./routes/clicks');
