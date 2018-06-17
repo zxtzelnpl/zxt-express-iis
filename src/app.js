@@ -13,7 +13,8 @@ const copysRouter = require('./routes/copys');
 const recordsRouter = require('./routes/records');
 const adminRouter = require('./routes/admin');
 const session = require('express-session');
-
+const MySQLStore = require('express-mysql-session')(session);
+const mysql =require('./config/mysql');
 const app = express();
 
 // view engine setup
@@ -22,11 +23,16 @@ app.set('view engine', 'hbs');
 
 logs(app);
 
-var sess = {
+
+const sessionStore = new MySQLStore({},mysql.pool)
+const sess = {
   secret: 'keyboard cat',
+  resave:false,
+  saveUninitialized:false,
+  store:sessionStore,
   cookie: {
     path: '/admin',
-    maxAge:60000
+    maxAge:86400000
   }
 }
 // if (app.get('env') === 'production') {
@@ -34,12 +40,12 @@ var sess = {
 // }
 
 // app.set('trust proxy', 1) // trust first proxy
-sess.cookie.secure = true // serve secure cookies
+// sess.cookie.secure = true // serve secure cookies
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser('keyboard cat'));
 app.use(session(sess));
+app.use(cookieParser('keyboard cat'));
 app.use('/public', express.static(path.join(__dirname, '../public')));
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
 app.use('/build', express.static(path.join(__dirname, '../build')));

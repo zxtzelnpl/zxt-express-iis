@@ -2,34 +2,38 @@ const express = require('express');
 const router = express.Router();
 const tools = require('../common/tools');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-
-
+function checkSession(req, res, next){
   console.log(req.session)
-  console.log(typeof req.session)
-  console.log(req.session.login)
-  console.log(Boolean(req.session.login))
-  console.log(typeof req.session.login)
+  console.log(req.session.views)
+  console.log(typeof req.session.views)
 
-  if(!req.session.login){
-    console.log('no login')
-    req.session.login = true
+  if (typeof req.session.views === "number") {
+    console.log(req.session.views);
+    req.session.views = req.session.views+1;
+    console.log(req.session.views)
   }
   else{
-    console.log('yes we login')
+    req.session.views = 0;
   }
+  next()
+}
+
+/* GET home page. */
+router.get('/',checkSession, function (req, res, next) {
+
+
+
 
   res.render('admin',
-    {
-      title: req.session.login?'admin':'login',
-      NODE_ENV:process.env.NODE_ENV,
-      text:tools.zxt++,
-      layout:false
-    }
+      {
+        title: 'admin',
+        NODE_ENV:process.env.NODE_ENV,
+        text:req.session.views,
+        layout:false
+      }
   );
 
-  console.log(`the ${tools.zxt} ends`)
+
 
 });
 
