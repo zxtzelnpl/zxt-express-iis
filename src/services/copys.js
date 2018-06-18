@@ -9,9 +9,9 @@ exports.getCopyRecordById = copy_id => {
         return dao.queryCopyRecordById(connection, copy_id)
             .then(results => {
               // And done with the connection.
-              connection.release();
               return results;
-            }).catch(err => {
+            })
+            .catch(err => {
               return err
             })
             .then((res) => {

@@ -23,6 +23,25 @@ app.set('view engine', 'hbs');
 
 logs(app);
 
+// 验证
+// if(app.get('env')==='development'){
+//   app.use((req,res,next)=>{
+//     let host = req.get('host');
+//
+//     if(host.indexOf('localhost')>-1){
+//
+//       console.log(app.get('env'))
+//       console.log(host)
+//
+//       next()
+//     }
+//     else{
+//       res.send('error');
+//     }
+//
+//   })
+// }
+
 
 const sessionStore = new MySQLStore({},mysql.pool)
 const sess = {

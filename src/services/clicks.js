@@ -9,10 +9,9 @@ exports.getClickRecordById = click_id => {
       return dao.queryClickRecordById(connection,click_id)
           .then(results => {
             // And done with the connection.
-            connection.release();
             return results;
           }).catch(err => {
-            return err
+            return err;
           })
           .then((res) => {
             connection.release();
