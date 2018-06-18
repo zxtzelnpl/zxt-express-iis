@@ -1,18 +1,26 @@
-const express = require('express');
-const router = express.Router();
 const tools = require('../common/tools');
-const middleware = require('./admin-middleware');
 
-
-/* GET home page. */
-router.get('/',middleware.checkSession, function (req, res, next) {
-
+exports.index = (req, res, next) => {
   res.render('admin',
       {
         title: 'admin',
-        layout:false
+        layout: false
       }
   );
-});
+}
 
-module.exports = router;
+exports.checkSession = (req, res, next) => {
+
+  console.log(req.get('Content-Type'))
+
+  if (req.session.name) {
+    next()
+  }
+  else {
+    res.status(403);
+    res.send({
+      msg: '没有权限',
+      code: '12345'
+    })
+  }
+}
