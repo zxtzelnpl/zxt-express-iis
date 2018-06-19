@@ -38,7 +38,6 @@ logs(app);
 //   })
 // }
 
-
 const sessionStore = new MySQLStore({},mysql.pool)
 const sess = {
   secret: 'keyboard cat',
