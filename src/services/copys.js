@@ -58,10 +58,10 @@ exports.getListsNum = conditions => {
 }
 
 //查询一页的记录条数
-exports.getOnePageList = (conditions, from, to) => {
+exports.getOnePageList = (conditions, from, to, order) => {
   return mysql.getConnection()
     .then(connection => {
-      return dao.getQueries(connection, conditions, from, to)
+      return dao.getQueries(connection, conditions, from, to, order)
         .then(results => {
           return results
         })

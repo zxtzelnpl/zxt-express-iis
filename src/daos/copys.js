@@ -57,7 +57,7 @@ exports.getCount = (connection, conditions) => {
 }
 
 //获取一页记录数量
-exports.getQueries = (connection, conditions, from, to) => {
+exports.getQueries = (connection, conditions, from, to, order) => {
   let sql = 'SELECT * FROM copys';
 
   conditions.forEach((condition, index) => {
@@ -68,6 +68,10 @@ exports.getQueries = (connection, conditions, from, to) => {
       sql += ` and ${condition.field} ${condition.operation} ${condition.value}`;
     }
   })
+
+  if(order!==null){
+    sql+= ` ORDER BY ${order.orderBy} ${order.orderSort}`
+  }
 
   sql+=` limit ${from},${to}`;
 

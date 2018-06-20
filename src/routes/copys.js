@@ -1,10 +1,9 @@
-const express = require('express');
-const router = express.Router();
 const service = require('../services/copys');
 const tools = require('../common/tools');
 const getClientIp = tools.getClientIp;
 const CopyRecord = require('../modules/copys');
-const makeConditions = require('../common/conditions');
+const makeConditions = require('../common/conditions').makeCopyConditions;
+const makeOrder = require('../common/order');
 
 /*请求一条记录*/
 exports.getCopyRecordById = (req, res, next) => {
@@ -48,7 +47,9 @@ exports.getListsNum = (req,res,next) => {
   service.getListsNum(conditions)
       .then(results=>{
         if(typeof results === 'object'&&!results.errno){
-          res.send(results)
+          res.send({
+            total:results[0]['COUNT(*)']
+          })
         }else{
           next(results)
         }
@@ -60,10 +61,13 @@ exports.getListsNum = (req,res,next) => {
 
 /*查询一页的数据*/
 exports.getOnePageList = (req,res,next) => {
-  const {from,to} = req.body;
+  const {pageSize, current, sorter} = req.body;
+  const from = pageSize*(current-1);
+  const to = pageSize*current;
+  const order = makeOrder(sorter);
   let conditions = makeConditions(req.body)
 
-  service.getOnePageList(conditions,from,to)
+  service.getOnePageList(conditions,from,to,order)
       .then(results=>{
         if(typeof results === 'object'&&!results.errno){
           res.send(results)

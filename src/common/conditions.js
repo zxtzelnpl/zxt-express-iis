@@ -60,7 +60,7 @@ function makeRecordConditions(obj){
   return conditions
 }
 
-function makeClickConditions(){
+function makeClickConditions(obj){
   let conditions = [];
 
   if(obj.click_title){
@@ -127,8 +127,69 @@ function makeClickConditions(){
   return conditions;
 }
 
-function makeCopyConditions(){
+function makeCopyConditions(obj){
   let conditions = [];
+
+  if(obj.copy_title){
+    conditions.push({
+      field:'copy_title',
+      operation:'LIKE',
+      value:`'%${obj.copy_title}%'`
+    })
+  }
+
+  if(obj.copy_team){
+    conditions.push({
+      field:'copy_team',
+      operation:'=',
+      value:`'${obj.copy_team}'`
+    })
+  }
+
+  if(obj.copy_text){
+    conditions.push({
+      field:'copy_text',
+      operation:'=',
+      value:`'${obj.copy_text}'`
+    })
+  }
+
+  if(obj.copy_device){
+    conditions.push({
+      field:'copy_device',
+      operation:'=',
+      value:`'${obj.copy_device}'`
+    })
+  }
+
+  if(obj.copy_date_from&&obj.copy_date_to){
+    let from = moment(obj.copy_date_from).format(format);
+    let to = moment(obj.copy_date_to).format(format);
+
+    conditions.push({
+      field:'copy_date',
+      operation:'BETWEEN',
+      value:`'${from}' AND '${to}'`
+    })
+  }
+  else if(obj.copy_date_from){
+    let from = moment(obj.copy_date_from).format(format);
+
+    conditions.push({
+      field:'copy_date',
+      operation:'>',
+      value:`'${from}'`
+    })
+  }
+  else if(obj.copy_date_to){
+    let to = moment(obj.copy_date_to).format(format);
+
+    conditions.push({
+      field:'copy_date',
+      operation:'<',
+      value:`'${to}'`
+    })
+  }
 
   return conditions;
 }
