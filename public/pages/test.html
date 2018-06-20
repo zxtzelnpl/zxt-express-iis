@@ -8,13 +8,20 @@
             margin: 10px 0;
         }
 
-        .bixbox {
+        .bixbox, .login {
             border: 1px solid black;
             padding: 5px;
         }
     </style>
 </head>
 <body>
+
+<div class="login">
+    <span>用户名：</span><input type="text" class="user_name" value="zxt" >
+    <span>密  码：</span><input type="text" class="user_pwd" value="123" >
+    <button>确认</button>
+</div>
+
 <div class="bixbox records">
     <div class="record">
         <span>LoadRecord :</span>
@@ -27,10 +34,10 @@
     </div>
 
     <div class="page">
-        <span>from</span>
-        <input type="number" class="from" value="0"/>
-        <span>to</span>
-        <input type="number" class="to" value="10"/>
+        <span>pagination</span>
+        <input type="number" class="pageSize" value="10"/>
+        <span>currentPage</span>
+        <input type="number" class="current" value="1"/>
         <button class="get_one_page">获取一页</button>
     </div>
 </div>
@@ -47,10 +54,10 @@
     </div>
 
     <div class="page">
-        <span>from</span>
-        <input type="number" class="from" value="0"/>
-        <span>to</span>
-        <input type="number" class="to" value="10"/>
+        <span>pagination</span>
+        <input type="number" class="pageSize" value="10"/>
+        <span>currentPage</span>
+        <input type="number" class="current" value="1"/>
         <button class="get_one_page">获取一页</button>
     </div>
 </div>
@@ -67,10 +74,10 @@
     </div>
 
     <div class="page">
-        <span>from</span>
-        <input type="number" class="from" value="0"/>
-        <span>to</span>
-        <input type="number" class="to" value="10"/>
+        <span>pagination</span>
+        <input type="number" class="pageSize" value="10"/>
+        <span>currentPage</span>
+        <input type="number" class="current" value="1"/>
         <button class="get_one_page">获取一页</button>
     </div>
 </div>
@@ -81,7 +88,31 @@
         crossorigin="anonymous"></script>
 <script src="/public/javascripts/getDevice.js"></script>
 <script>
+  $(function () {
+    var loginBox = $('.login');
 
+    var btn = loginBox.find('button');
+
+    btn.click(e=>{
+      var user_name = loginBox.find('.user_name').val();
+      var user_pwd = loginBox.find('.user_pwd').val();
+      fetch('/admin/login',{
+        method:'post',
+        credentials: "include",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_name,
+          user_pwd
+        })
+      })
+        .then(res=>res.json)
+        .then(json=>{
+          console.log(json)
+        })
+    })
+  })
 
   $(function () {
 
@@ -131,6 +162,7 @@
 
         fetch(url, {
           method: 'post',
+          credentials: "include",
           headers: {
             'Content-Type': 'application/json'
           },
@@ -174,6 +206,7 @@
 
         fetch(url, {
           method: 'post',
+          credentials: "include",
           headers: {
             'Content-Type': 'application/json'
           },
@@ -186,17 +219,18 @@
       });
       /*page记录*/
       page.on('click', () => {
-        let url = `/${route}/page`;
+        let url = `/admin/${route}/page`;
 
-        let fromIndex = page.find('.from').val();
-        let toIndex = page.find('.to').val();
+        let pageSize = page.find('.pageSize').val();
+        let current = page.find('.current').val();
         let data = {
-          from: fromIndex,
-          to: toIndex
+          pageSize,
+          current
         };
 
         fetch(url, {
           method: 'post',
+          credentials: "include",
           headers: {
             'Content-Type': 'application/json'
           },
@@ -208,7 +242,7 @@
           })
       })
 
-    })
+    });
   })
 </script>
 </html>

@@ -70,7 +70,11 @@ exports.getOnePageList = (req,res,next) => {
   service.getOnePageList(conditions,from,to,order)
       .then(results=>{
         if(typeof results === 'object'&&!results.errno){
-          res.send(results)
+          res.send({
+            pageSize,
+            current,
+            list:results
+          })
         }else{
           next(results)
         }
