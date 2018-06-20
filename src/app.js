@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 
 const logs = require('./common/logs');
@@ -41,6 +42,14 @@ app.use(cookieParser('keyboard cat'));
 app.use('/public',express.static(path.join(__dirname, '../public')));
 app.use('/dist',express.static(path.join(__dirname, '../dist')));
 app.use('/build',express.static(path.join(__dirname, '../build')));
+app.use('/favicon.ico',(req,res)=>{
+  res.setHeader('Content-Type', 'image/x-icon');
+  const content =  fs.readFileSync(path.resolve(__dirname,'./favicon.ico'),"binary");
+  res.writeHead(200, "Ok");
+  res.write(content,"binary"); //格式必须为 binary，否则会出错
+  res.end();
+})
+
 
 if(app.get('env') === 'development'){
   app.use('/test',express.static(path.join(__dirname, '../test')));
