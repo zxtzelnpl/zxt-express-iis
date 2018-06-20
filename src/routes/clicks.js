@@ -5,7 +5,8 @@ const service = require('../services/clicks');
 const tools = require('../common/tools');
 const getClientIp = tools.getClientIp;
 const ClickRecord = require('../modules/clicks');
-const makeConditions = require('../common/conditions');
+const makeConditions = require('../common/conditions').makeClickConditions;
+const makeOrder = require('../common/order');
 
 /* GET records listing. */
 exports.index = (req, res, next) => {
@@ -66,10 +67,13 @@ exports.getListsNum = (req,res,next) => {
 
 /*查询一页的数据*/
 exports.getOnePageList = (req,res,next) => {
-  const {from,to} = req.body;
+  const {pageSize, current, sorter} = req.body;
+  const from = pageSize*(current-1) + 1;
+  const to = pageSize*current;
+  const order = makeOrder(sorter);
   let conditions = makeConditions(req.body)
 
-  service.getOnePageList(conditions,from,to)
+  service.getOnePageList(conditions,from,to,order)
       .then(results=>{
         if(typeof results === 'object'&&!results.errno){
           res.send(results)

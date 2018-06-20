@@ -57,7 +57,7 @@ exports.getCount = (connection, conditions) => {
 }
 
 //获取一页记录数量
-exports.getQueries = (connection, conditions, from, to) => {
+exports.getQueries = (connection, conditions, from, to, order) => {
   let sql = 'SELECT * FROM clicks';
 
   conditions.forEach((condition, index) => {
@@ -69,7 +69,13 @@ exports.getQueries = (connection, conditions, from, to) => {
     }
   })
 
+  if(order!==null){
+    sql+= ` ORDER BY ${order.orderBy} ${order.orderSort}`
+  }
+
   sql+=` limit ${from},${to}`;
+
+  console.log(sql);
 
   return new Promise((resolve, reject) => {
     connection.query(sql, function (err, results) {

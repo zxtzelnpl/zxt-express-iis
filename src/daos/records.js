@@ -73,19 +73,25 @@ exports.getCount = (connection, conditions) => {
 }
 
 //获取一页记录数量
-exports.getQueries = (connection, conditions, from, to) => {
+exports.getQueries = (connection, conditions, from, to, order) => {
   let sql = 'SELECT * FROM records';
 
   conditions.forEach((condition, index) => {
     if (index === 0) {
-      sql += ` where ${condition.field} ${condition.operation} ${condition.value}`;
+      sql += ` WHERE ${condition.field} ${condition.operation} ${condition.value}`;
     }
     else {
-      sql += ` and ${condition.field} ${condition.operation} ${condition.value}`;
+      sql += ` AND ${condition.field} ${condition.operation} ${condition.value}`;
     }
   })
 
-  sql+=` limit ${from},${to}`;
+  if(order!==null){
+    sql+= ` ORDER BY ${order.orderBy} ${order.orderSort}`
+  }
+
+  sql+=` LIMIT ${from},${to}`;
+
+  console.log(sql);
 
   return new Promise((resolve, reject) => {
     connection.query(sql, function (err, results) {
