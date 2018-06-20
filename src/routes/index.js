@@ -12,10 +12,13 @@ const clicksRouter = express.Router();
 const copysControlls = require('./copys');
 const copysRouter = express.Router();
 
+const usersControlls = require('./users');
+
 adminRouter.use(adminControlls.checkSession);
 
 adminRouter.get('/',adminControlls.index);
-adminRouter.post('/login',adminControlls.login);
+adminRouter.post('/login',usersControlls.login);
+adminRouter.post('/register',usersControlls.register);
 adminRouter.get('/records',recordsControlls.index);
 adminRouter.get('/records/get',recordsControlls.getRecordById);
 adminRouter.post('/records/total',recordsControlls.getListsNum);

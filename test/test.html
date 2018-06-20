@@ -19,7 +19,8 @@
 <div class="login">
     <span>用户名：</span><input type="text" class="user_name" value="zxt" >
     <span>密  码：</span><input type="text" class="user_pwd" value="123" >
-    <button>确认</button>
+    <button id="login">登陆</button>
+    <button id="register">注册</button>
 </div>
 
 <div class="bixbox records">
@@ -91,9 +92,10 @@
   $(function () {
     var loginBox = $('.login');
 
-    var btn = loginBox.find('button');
+    var btn_login = loginBox.find('#login');
+    var btn_register = loginBox.find('#register');
 
-    btn.click(e=>{
+    btn_login.click(e=>{
       var user_name = loginBox.find('.user_name').val();
       var user_pwd = loginBox.find('.user_pwd').val();
       fetch('/admin/login',{
@@ -112,7 +114,29 @@
           console.log(json)
         })
     })
+
+    btn_register.click(e=>{
+      var user_name = loginBox.find('.user_name').val();
+      var user_pwd = loginBox.find('.user_pwd').val();
+      fetch('/admin/register',{
+        method:'post',
+        credentials: "include",
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_name,
+          user_pwd
+        })
+      })
+          .then(res=>res.json)
+          .then(json=>{
+            console.log(json)
+          })
+    })
   })
+
+
 
   $(function () {
 

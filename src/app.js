@@ -19,25 +19,6 @@ app.set('view engine', 'hbs');
 
 logs(app);
 
-// 验证
-// if(app.get('env')==='development'){
-//   app.use((req,res,next)=>{
-//     let host = req.get('host');
-//
-//     if(host.indexOf('localhost')>-1){
-//
-//       console.log(app.get('env'))
-//       console.log(host)
-//
-//       next()
-//     }
-//     else{
-//       res.send('error');
-//     }
-//
-//   })
-// }
-
 const sessionStore = new MySQLStore({},mysql.pool)
 const sess = {
   secret: 'keyboard cat',
@@ -49,9 +30,6 @@ const sess = {
     maxAge:86400000
   }
 }
-// if (app.get('env') === 'production') {
-//
-// }
 
 app.set('trust proxy', 1) // trust proxy
 // sess.cookie.secure = true // serve secure cookies
@@ -63,6 +41,10 @@ app.use(cookieParser('keyboard cat'));
 app.use('/public',express.static(path.join(__dirname, '../public')));
 app.use('/dist',express.static(path.join(__dirname, '../dist')));
 app.use('/build',express.static(path.join(__dirname, '../build')));
+
+if(app.get('env') === 'development'){
+  app.use('/test',express.static(path.join(__dirname, '../test')));
+}
 
 /*路由*/
 router(app);

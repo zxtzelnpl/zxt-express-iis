@@ -18,7 +18,7 @@ exports.queryUserByName = (connection, user_name) => {
 
 //插入一条记录
 exports.insertOneUser = (connection, user) => {
-  const sql = "INSERT INTO records SET ?";
+  const sql = "INSERT INTO users SET ?";
   return new Promise((resolve, reject) => {
     connection.query(sql, user, function (err, results) {
       if (err) {

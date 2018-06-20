@@ -24,10 +24,3 @@ exports.checkSession = (req, res, next) => {
     })
   }
 }
-
-exports.login =(req,res,next)=>{
-  console.log(req.cookies);
-  req.session.user_name = req.body.user_name;
-  console.log(req.session);
-  res.json(req.session)
-}
