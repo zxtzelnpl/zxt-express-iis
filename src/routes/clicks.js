@@ -53,22 +53,24 @@ exports.getListsNum = (req,res,next) => {
   let conditions = makeConditions(req.body)
 
   service.getListsNum(conditions)
-      .then(results=>{
-        if(typeof results === 'object'&&!results.errno){
-          res.send(results)
-        }else{
-          next(results)
-        }
-      })
-      .catch(err=>{
-        next(err)
-      })
+    .then(results => {
+      if (typeof results === 'object' && !results.errno) {
+        res.send({
+          total:results[0]['COUNT(*)']
+        })
+      } else {
+        next(results)
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
 }
 
 /*查询一页的数据*/
 exports.getOnePageList = (req,res,next) => {
   const {pageSize, current, sorter} = req.body;
-  const from = pageSize*(current-1) + 1;
+  const from = pageSize*(current-1);
   const to = pageSize*current;
   const order = makeOrder(sorter);
   let conditions = makeConditions(req.body)
@@ -76,7 +78,11 @@ exports.getOnePageList = (req,res,next) => {
   service.getOnePageList(conditions,from,to,order)
       .then(results=>{
         if(typeof results === 'object'&&!results.errno){
-          res.send(results)
+          res.send({
+            pageSize,
+            current,
+            list:results
+          })
         }else{
           next(results)
         }

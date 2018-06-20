@@ -67,7 +67,7 @@ exports.getListsNum = (req, res, next) => {
 /*查询一页的数据*/
 exports.getOnePageList = (req, res, next) => {
   const {pageSize, current, sorter} = req.body;
-  const from = pageSize*(current-1) + 1;
+  const from = pageSize*(current-1);
   const to = pageSize*current;
   const order = makeOrder(sorter);
   let conditions = makeConditions(req.body)
