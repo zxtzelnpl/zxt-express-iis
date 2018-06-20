@@ -6,7 +6,7 @@ const makeConditions = require('../common/conditions').makeRecordConditions;
 const makeOrder = require('../common/order');
 
 /* Check Page */
-exports.index = (req, res, next) => {
+exports.index = (req, res) => {
   res.send('respond with a resource' + tools.zxt++);
 };
 

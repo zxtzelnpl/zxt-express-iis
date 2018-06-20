@@ -8,7 +8,7 @@ function makeRecordConditions(obj){
     conditions.push({
       field:'record_title',
       operation:'LIKE',
-      value:`\'%${obj.record_title}%\'`
+      value:`'%${obj.record_title}%'`
     })
   }
 
@@ -16,7 +16,7 @@ function makeRecordConditions(obj){
     conditions.push({
       field:'record_team',
       operation:'=',
-      value:`\'${obj.record_team}\'`
+      value:`'${obj.record_team}'`
     })
   }
 
@@ -24,7 +24,7 @@ function makeRecordConditions(obj){
     conditions.push({
       field:'record_device',
       operation:'=',
-      value:`\'${obj.record_device}\'`
+      value:`'${obj.record_device}'`
     })
   }
 
@@ -62,6 +62,67 @@ function makeRecordConditions(obj){
 
 function makeClickConditions(){
   let conditions = [];
+
+  if(obj.click_title){
+    conditions.push({
+      field:'click_title',
+      operation:'LIKE',
+      value:`'%${obj.click_title}%'`
+    })
+  }
+
+  if(obj.click_team){
+    conditions.push({
+      field:'click_team',
+      operation:'=',
+      value:`'${obj.click_team}'`
+    })
+  }
+
+  if(obj.click_btn){
+    conditions.push({
+      field:'click_btn',
+      operation:'=',
+      value:`'${obj.click_btn}'`
+    })
+  }
+
+  if(obj.click_device){
+    conditions.push({
+      field:'click_device',
+      operation:'=',
+      value:`'${obj.click_device}'`
+    })
+  }
+
+  if(obj.click_date_from&&obj.click_date_to){
+    let from = moment(obj.click_date_from).format(format);
+    let to = moment(obj.click_date_to).format(format);
+
+    conditions.push({
+      field:'click_date',
+      operation:'BETWEEN',
+      value:`'${from}' AND '${to}'`
+    })
+  }
+  else if(obj.click_date_from){
+    let from = moment(obj.click_date_from).format(format);
+
+    conditions.push({
+      field:'click_date',
+      operation:'>',
+      value:`'${from}'`
+    })
+  }
+  else if(obj.click_date_to){
+    let to = moment(obj.click_date_to).format(format);
+
+    conditions.push({
+      field:'click_date',
+      operation:'<',
+      value:`'${to}'`
+    })
+  }
 
   return conditions;
 }

@@ -1,6 +1,3 @@
-const express = require('express');
-const router = express.Router();
-
 const service = require('../services/clicks');
 const tools = require('../common/tools');
 const getClientIp = tools.getClientIp;
@@ -9,7 +6,7 @@ const makeConditions = require('../common/conditions').makeClickConditions;
 const makeOrder = require('../common/order');
 
 /* GET records listing. */
-exports.index = (req, res, next) => {
+exports.index = (req, res) => {
   res.send('respond with a resource'+tools.zxt++);
 }
 
