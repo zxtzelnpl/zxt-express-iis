@@ -32,7 +32,7 @@ exports.insertOneUser = (connection, user) => {
 }
 
 exports.updateOneUser = (connection, user_name, last_login)=>{
-  const sql = "UPDATE users SET last_login ? WHERE user_name = ?";
+  const sql = "UPDATE users SET last_login = ? WHERE user_name = ?";
   return new Promise((resolve, reject)=>{
     connection.query(sql,last_login,user_name,(err,results) => {
       if (err) {
