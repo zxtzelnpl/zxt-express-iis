@@ -18,6 +18,7 @@ adminRouter.use(adminControlls.checkSession);
 
 adminRouter.get('/',adminControlls.index);
 adminRouter.post('/login',usersControlls.login);
+adminRouter.post('/logout',usersControlls.logout);
 adminRouter.post('/register',usersControlls.register);
 adminRouter.get('/records',recordsControlls.index);
 adminRouter.get('/records/get',recordsControlls.getRecordById);

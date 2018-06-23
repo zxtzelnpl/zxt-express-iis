@@ -21,7 +21,10 @@
     <span>用户名：</span><input type="text" class="user_name" value="zxt" >
     <span>密  码：</span><input type="text" class="user_pwd" value="123" >
     <button id="login">登陆</button>
+
     <button id="register">注册</button>
+
+    <button id="logout">登出</button>
 </div>
 
 <div class="bixbox records">
@@ -95,6 +98,7 @@
 
     var btn_login = loginBox.find('#login');
     var btn_register = loginBox.find('#register');
+    var btn_logout = loginBox.find('#logout');
 
     btn_login.click(e=>{
       var user_name = loginBox.find('.user_name').val();
@@ -110,7 +114,7 @@
           user_pwd
         })
       })
-        .then(res=>res.json)
+        .then(res=>res.json())
         .then(json=>{
           console.log(json)
         })
@@ -131,6 +135,17 @@
         })
       })
           .then(res=>res.json)
+          .then(json=>{
+            console.log(json)
+          })
+    })
+
+    btn_logout.click(()=>{
+      fetch('/admin/logout',{
+        method:'post',
+        credentials: "include",
+      })
+          .then(res=>res.json())
           .then(json=>{
             console.log(json)
           })

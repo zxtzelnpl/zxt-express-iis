@@ -3,7 +3,18 @@ const User = require('../modules/users');
 
 /*登录逻辑*/
 exports.login = (req, res, next) => {
-  const {user_name,user_pwd} = req.body;
+  let {user_name,user_pwd} = req.body;
+
+  if(!user_name||!user_pwd){
+    let {userName,password} = req.body;
+
+    console.log(userName,password)
+
+    user_name = userName;
+    user_pwd = password;
+  }
+
+  console.log(user_name,user_pwd)
 
   service.login(user_name)
     .then(results => {
@@ -30,6 +41,18 @@ exports.login = (req, res, next) => {
       next(err)
     })
 };
+
+exports.logout = (req,res,next) => {
+  if(req.session.user_name){
+    delete req.session.user_name;
+
+    res.json({
+      ok:true
+    })
+  }else{
+    next()
+  }
+}
 
 /*注册用户*/
 exports.register = (req, res, next) => {

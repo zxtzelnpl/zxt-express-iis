@@ -5,6 +5,8 @@
 exports.queryUserByName = (connection, user_name) => {
   const sql = "SELECT * FROM users where user_name = ?";
 
+  console.log(user_name)
+
   return new Promise((resolve, reject) => {
     connection.query(sql, user_name, (err, results) => {
       if (err) {
