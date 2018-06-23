@@ -1,6 +1,7 @@
 // 持久层
 
 //根据user_name查询
+// exports.queryUserByName = "SELECT * FROM users where user_name = ?";
 exports.queryUserByName = (connection, user_name) => {
   const sql = "SELECT * FROM users where user_name = ?";
 

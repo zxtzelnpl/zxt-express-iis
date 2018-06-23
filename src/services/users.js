@@ -6,6 +6,7 @@ const mysql = require('../config/mysql');
 exports.login = user_name => {
   return mysql.getConnection()
     .then(connection => {
+
       return dao.queryUserByName(connection, user_name)
         .then(results => {
           // And done with the connection.
